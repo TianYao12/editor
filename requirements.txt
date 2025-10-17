@@ -8,10 +8,13 @@ pillow>=9.0.0
 python-dotenv>=1.0.0
 requests>=2.28.0
 
-# Optional: For better video processing
+# YouTube music download
+yt-dlp>=2023.1.6
+
+# Audio processing (optional, for music generation fallback)
+scipy>=1.9.0
+numpy>=1.21.0
+
+# Video processing
 imageio>=2.22.0
 imageio-ffmpeg>=0.4.7
-
-# Optional: For better font handling (system dependent)
-# On macOS/Linux: Usually included with system
-# On Windows: May need additional font packages

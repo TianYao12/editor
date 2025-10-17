@@ -21,6 +21,7 @@ from src.video_creator import create_video
 from src.thumbnail_generator import generate_thumbnail
 from src.metadata_handler import save_metadata
 from src.utils import create_output_folder, open_video
+from src.music_generator import get_music_types
 
 
 def main():
@@ -41,8 +42,11 @@ def main():
     # Step 4: Voice Generation
     voiceover_path = generate_voice(script_content, output_dir)
     
+    # Step 4.5: Music Type Selection
+    music_type = get_music_type_selection()
+    
     # Step 5: Video Creation
-    video_path = create_sleep_video(background_path, voiceover_path, output_dir)
+    video_path = create_sleep_video(background_path, voiceover_path, output_dir, music_type)
     
     # Step 6: Review
     review_video(video_path)
@@ -108,10 +112,43 @@ def generate_voice(script_content, output_dir):
     return voiceover_path
 
 
-def create_sleep_video(background_path, voiceover_path, output_dir):
-    """Create the final video with background and voiceover."""
+def get_music_type_selection():
+    """Get user's choice for background music type."""
+    music_types = get_music_types()
+    
+    print("Choose background music type:")
+    print("1. ambient - Lofi and ambient background music (recommended)")
+    print("2. nature - Nature sounds (rain, forest, ocean)")
+    print("3. meditation - Calm meditation and zen music")
+    print("4. piano - Peaceful piano melodies")
+    print("5. space - Deep space and cosmic ambient sounds")
+    print("6. silence - No background music")
+    
+    while True:
+        choice = input("Enter your choice (1-6): ").strip()
+        
+        music_map = {
+            "1": "ambient",
+            "2": "nature", 
+            "3": "meditation",
+            "4": "piano",
+            "5": "space",
+            "6": "silence"
+        }
+        
+        if choice in music_map:
+            selected_type = music_map[choice]
+            print(f"Selected: {selected_type}")
+            print()
+            return selected_type
+        else:
+            print("Please enter a number between 1-6.")
+
+
+def create_sleep_video(background_path, voiceover_path, output_dir, music_type="ambient"):
+    """Create the final video with background, voiceover, and music."""
     print("Creating video...")
-    video_path = create_video(background_path, voiceover_path, output_dir)
+    video_path = create_video(background_path, voiceover_path, output_dir, music_type)
     print(f"Video exported successfully to {os.path.basename(video_path)}.")
     print()
     return video_path
